@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "windows g++ x64 vulkan",
+            "intelliSenseMode": "windows-gcc-x64",
+            "compilerPath": "C:/Program Files/MSYS2/ucrt64/bin/g++.exe",
+            "cStandard": "${default}",
+            "cppStandard": "${default}",
+            "includePath": [
+                "${workspaceFolder}/src/**",
+                "C:/Include/Vulkan SDK 1.4.309.0/Include/**"
+            ],
+            "compilerArgs": [
+                ""
+            ],
+            "defines": [
+                "SDL_MAIN_HANDLED"
+            ]
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,35 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cmake",
+			"label": "CMake: build",
+			"command": "build",
+			"targets": [
+				"all"
+			],
+			"group": {
+				"kind": "build",
+			},
+			"problemMatcher": [],
+			"detail": "CMake template build task"
+		},
+		{
+      "label": "Build & Run",
+      "dependsOn": ["CMake: build"],
+      "type": "shell",
+      "command": "${workspaceFolder}/bin/Fuchsia.exe",
+      "problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      }
+    }
+	]
+}
