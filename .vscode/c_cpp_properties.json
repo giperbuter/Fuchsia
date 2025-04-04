@@ -8,7 +8,8 @@
             "cppStandard": "${default}",
             "includePath": [
                 "${workspaceFolder}/src/**",
-                "C:/Include/Vulkan SDK 1.4.309.0/Include/**"
+                "C:/Include/Vulkan SDK 1.4.309.0/Include/**",
+                "C:/Include/x86_64-w64-mingw32/include/**"
             ],
             "compilerArgs": [
                 ""
