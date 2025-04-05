@@ -1,2 +1,7 @@
 /bin
 .vscode/settings.json
+android/.gradle/
+android/build/
+android/gradle/
+android/app/build/
+android/app/jni/SDL/
