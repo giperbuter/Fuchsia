@@ -5,7 +5,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := main
 
 # Add your application source files here...
-LOCAL_SRC_FILES := ../../../../src/main.cpp ../../../../src/engine.cpp C:\Include\Vulkan-SDK-1.4.309.0\Include\Volk\volk.c
+LOCAL_SRC_FILES := ../../../../src/main.cpp ../../../../src/engine.cpp
 
 SDL_PATH := ../SDL
 
