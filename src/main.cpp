@@ -1,3 +1,4 @@
+#define VOLK_IMPLEMENTATION
 #include <iostream>
 
 #include "engine.h"
@@ -7,7 +8,7 @@ int main(int argc, char* argv[]) {
 
   if (!engine.Initialize()) {
     for (auto error : engine.Errors())
-      SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "SDL_Init failed (%s)", SDL_GetError());
+      SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "%s\n", error.c_str());
   }
 
   // engine.Tick = [](double) { SDL_Log("Tick!"); };

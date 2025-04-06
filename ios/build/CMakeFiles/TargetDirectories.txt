@@ -1,0 +1,3 @@
+/Users/olgaskuratov/Documents/c++/Fuchsia/ios/build/CMakeFiles/Fuchsia.dir
+/Users/olgaskuratov/Documents/c++/Fuchsia/ios/build/CMakeFiles/ALL_BUILD.dir
+/Users/olgaskuratov/Documents/c++/Fuchsia/ios/build/CMakeFiles/ZERO_CHECK.dir

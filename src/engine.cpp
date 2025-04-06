@@ -13,12 +13,12 @@ bool Engine::Initialize() {
   }
 
   if (!SDL_Vulkan_LoadLibrary(nullptr)) {
-    err("Failed to load Vulkan library!");
+    err("Failed to load Vulkan library");
     return false;
   }
 
   if (volkInitialize() != VK_SUCCESS) {
-    err(std::string("Failed to initialize Volk") + SDL_GetError());
+    err(std::string("Failed to initialize Volk: ") + SDL_GetError());
     return false;
   }
 
@@ -28,32 +28,38 @@ bool Engine::Initialize() {
     return false;
   }
 
+
   VkApplicationInfo appInfo = {};
   appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
   appInfo.pApplicationName = "Fuchsia Engine";
   appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
   appInfo.pEngineName = "Fuchsia";
   appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
-  appInfo.apiVersion = VK_API_VERSION_1_4;
-
-  VkInstanceCreateInfo createInfo = {};
-  createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-  createInfo.pApplicationInfo = &appInfo;
-
+  appInfo.apiVersion = VK_MAKE_API_VERSION(0, 1, 2, 0); 
+  
+  const std::vector<const char*> validationLayer = {};//"VK_LAYER_LUNARG_standart_validation"};
   unsigned int extensionCount = 0;
   const char* const* extensionNames = SDL_Vulkan_GetInstanceExtensions(&extensionCount);
+  
+  VkInstanceCreateInfo createInfo = {};
+  createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+  createInfo.flags = VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
+  createInfo.pApplicationInfo = &appInfo;
+  createInfo.enabledLayerCount = 0;
+  createInfo.ppEnabledLayerNames = validationLayer.data();
   createInfo.enabledExtensionCount = extensionCount;
   createInfo.ppEnabledExtensionNames = extensionNames;
 
   VkInstance instance;
   VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
   if (result != VK_SUCCESS) {
-    err("Failed to create Vulkan instance");
+    err("Failed to create Vulkan instance: " + std::to_string(result));
     return false;
   }
 
   volkLoadInstance(instance);
 
+        
   unsigned int deviceCount = 0;
   VkResult res = vkEnumeratePhysicalDeviceGroups(instance, &deviceCount, nullptr);
   if (res != VK_SUCCESS) {
