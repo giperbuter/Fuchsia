@@ -1,6 +1,7 @@
 #include "engine.h"
 
 void Engine::err(std::string message) {
+  std::cerr << message << "\n";
   errorRegistery.push_back(message);
   Terminate();
 }
@@ -11,22 +12,57 @@ bool Engine::Initialize() {
     return false;
   }
 
+  if (!SDL_Vulkan_LoadLibrary(nullptr)) {
+    err("Failed to load Vulkan library!");
+    return false;
+  }
+
   if (volkInitialize() != VK_SUCCESS) {
-    err("Failed to initialize Volk");
+    err(std::string("Failed to initialize Volk") + SDL_GetError());
     return false;
   }
 
   window = SDL_CreateWindow("Fuchsia Engine", 800, 600, SDL_WINDOW_VULKAN | SDL_WINDOW_HIGH_PIXEL_DENSITY);
-
-  if (!window) {   
+  if (!window) {
     err(std::string("Failed to create window: ") + SDL_GetError());
     return false;
   }
 
-  if (!SDL_Vulkan_GetInstanceExtensions(nullptr)) {
-    err(std::string("Failed to get Vulkan extension count: ") + SDL_GetError());
+  VkApplicationInfo appInfo = {};
+  appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+  appInfo.pApplicationName = "Fuchsia Engine";
+  appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
+  appInfo.pEngineName = "Fuchsia";
+  appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
+  appInfo.apiVersion = VK_API_VERSION_1_4;
+
+  VkInstanceCreateInfo createInfo = {};
+  createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+  createInfo.pApplicationInfo = &appInfo;
+
+  unsigned int extensionCount = 0;
+  const char* const* extensionNames = SDL_Vulkan_GetInstanceExtensions(&extensionCount);
+  createInfo.enabledExtensionCount = extensionCount;
+  createInfo.ppEnabledExtensionNames = extensionNames;
+
+  VkInstance instance;
+  VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
+  if (result != VK_SUCCESS) {
+    err("Failed to create Vulkan instance");
     return false;
   }
+
+  volkLoadInstance(instance);
+
+  // Print number of physical devices
+  unsigned int deviceCount = 0;
+  VkResult res = vkEnumeratePhysicalDeviceGroups(instance, &deviceCount, nullptr);
+  if (res != VK_SUCCESS) {
+    err("Failed to enumerate physical devices");
+    return false;
+  }
+  SDL_Log("Number of physical devices: %u", deviceCount);
+
   return true;
 }
 

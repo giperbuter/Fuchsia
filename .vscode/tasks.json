@@ -18,7 +18,7 @@
       "label": "Build & Run",
       "dependsOn": ["CMake: build"],
       "type": "shell",
-      "command": "${workspaceFolder}/bin/Fuchsia.exe",
+      "command": "${workspaceFolder}/windows/bin/Fuchsia.exe",
       "problemMatcher": [],
 			"group": {
 				"kind": "build",

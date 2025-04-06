@@ -1,5 +1,5 @@
-/bin
 .vscode/settings.json
+windows/bin
 android/.gradle/
 android/build/
 android/gradle/

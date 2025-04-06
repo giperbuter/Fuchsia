@@ -5,6 +5,7 @@
 #include <Volk/volk.h>
 
 #include <functional>
+#include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
@@ -12,6 +13,7 @@
 class Engine {
  private:
   SDL_Window* window;
+  VkInstance instance;
   std::vector<std::string> errorRegistery = std::vector<std::string>();
   void err(std::string message);
 

@@ -13,8 +13,8 @@ link_directories(
 )
 
 set(SOURCES
-  src/main.cpp
-  src/Engine.cpp
+  ../src/main.cpp
+  ../src/Engine.cpp
 )
 add_executable(${PROJECT_NAME} ${SOURCES})
 
@@ -25,7 +25,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 )
 
 target_link_libraries(${PROJECT_NAME}
-  "vulkan-1.lib"
   "libSDL3.dll.a"
   "volk.lib"
   "volkd.lib"
