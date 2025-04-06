@@ -3,7 +3,7 @@
 	"tasks": [
 		{
 			"type": "cmake",
-			"label": "CMake: build",
+			"label": "CMake build",
 			"command": "build",
 			"targets": [
 				"all"
@@ -15,21 +15,32 @@
 			"detail": "CMake template build task"
 		},
 		{
-      "label": "Build & Run",
-      "dependsOn": ["CMake: build"],
-      "type": "shell",
-      "command": "${workspaceFolder}/windows/bin/Fuchsia.exe",
-      "problemMatcher": [],
+			"label": "Build & Run Windows",
+			"type": "shell",
+			"dependsOn": [
+				"CMake: build"
+			],
+			"command": "${workspaceFolder}/windows/bin/Fuchsia.exe",
 			"group": {
 				"kind": "build",
 				"isDefault": true
-			},
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "new"
-      }
-    }
+			}
+		},
+		{
+			"label": "Build & Install Android",
+			"type": "shell",
+			"command": "cd android & gradlew installDebug",
+			"group": {
+				"kind": "build",
+			}
+		},
+		{
+			"label": "Open Android Console",
+			"type": "shell",
+			"command": "for /f \"delims=\" %p in ('adb shell pidof -s org.libsdl.app') do adb logcat --pid=%p",
+			"group": {
+				"kind": "build",
+			}
+		}
 	]
 }

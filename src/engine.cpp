@@ -54,7 +54,6 @@ bool Engine::Initialize() {
 
   volkLoadInstance(instance);
 
-  // Print number of physical devices
   unsigned int deviceCount = 0;
   VkResult res = vkEnumeratePhysicalDeviceGroups(instance, &deviceCount, nullptr);
   if (res != VK_SUCCESS) {
