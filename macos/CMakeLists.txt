@@ -7,8 +7,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(VULKAN_SDK_ROOT "/Library/Vulkan-SDK-1.4.309.0/macOS")
 set(SDL3_ROOT "/usr/local")
 
+set(VK_ICD_FILENAMES "${VULKAN_SDK_ROOT}/share/vulkan/icd.d/MoltenVK_icd.json")
+
 link_directories(
-  "${VULKAN_SDK_ROOT}/Lib"
+  "${VULKAN_SDK_ROOT}/lib"
   "${SDL3_ROOT}/lib"
 )
 
@@ -26,7 +28,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME}
   "libSDL3.dylib"
-  "${VULKAN_SDK_ROOT}/lib/libMoltenVK.dylib" #MoltenVK.xcframework/macos-arm64_x86_64/libMoltenVK.a"
+  "/Library/Vulkan-SDK-1.4.309.0/macOS/lib/libMoltenVK.dylib"
+  "/Library/Vulkan-SDK-1.4.309.0/macOS/lib/libvulkan.dylib"
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE SDL_MAIN_HANDLED)

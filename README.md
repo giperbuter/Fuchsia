@@ -15,8 +15,9 @@ Make sure the cmake vscode extension sourceDirectory is windows and buildDirecto
 Run with the default vscode build task.
 
 MacOS:
+Make sure to set the VK_ICD_FILENAMES environment veriable, preferrably with the setup-env.sh script in the vulkan root directory.
 cd ./macos/build
-cmake .. -G Xcode -DCMAKE_OSX_SYSROOT=macosx -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15;2D
+cmake .. "-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64" -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
 cmake --build . --config Debug
 ./Debug/Fuchsia.app/Contents/MacOS/Fuchsia
 
