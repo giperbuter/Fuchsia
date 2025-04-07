@@ -22,13 +22,11 @@ bool Engine::Initialize() {
     return false;
   }
 
-  window = SDL_CreateWindow("Fuchsia Engine", 800, 600,
-                            SDL_WINDOW_VULKAN | SDL_WINDOW_HIGH_PIXEL_DENSITY);
+  window = SDL_CreateWindow("Fuchsia Engine", 800, 600, SDL_WINDOW_VULKAN | SDL_WINDOW_HIGH_PIXEL_DENSITY);
   if (!window) {
     err(std::string("Failed to create window: ") + SDL_GetError());
     return false;
   }
-
 
   VkApplicationInfo appInfo = {};
   appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -38,10 +36,10 @@ bool Engine::Initialize() {
   appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
   appInfo.apiVersion = VK_MAKE_API_VERSION(0, 1, 2, 0);
 
-  const std::vector<const char*> validationLayers ={};//"VK_LAYER_KHRONOS_validation"}; 
-  unsigned int extensionCount = 0; 
-  const char* const* extensionNames = SDL_Vulkan_GetInstanceExtensions(&extensionCount); 
-  
+  const std::vector<const char*> validationLayers = {};  //"VK_LAYER_KHRONOS_validation"};
+  unsigned int extensionCount = 0;
+  const char* const* extensionNames = SDL_Vulkan_GetInstanceExtensions(&extensionCount);
+
   VkInstanceCreateInfo createInfo = {};
   createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
   createInfo.flags = VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
@@ -51,7 +49,6 @@ bool Engine::Initialize() {
   createInfo.enabledExtensionCount = extensionCount;
   createInfo.ppEnabledExtensionNames = extensionNames;
 
-  VkInstance instance;
   VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
   if (result != VK_SUCCESS) {
     err("Failed to create Vulkan instance: " + std::to_string(result));
@@ -60,26 +57,24 @@ bool Engine::Initialize() {
 
   volkLoadInstance(instance);
 
+  return true;
+}
 
+bool Engine::Ignite() {
+  // Print the number of GPUs visible to Vulkan.
   unsigned int deviceCount = 0;
-  VkResult res =
-      vkEnumeratePhysicalDeviceGroups(instance, &deviceCount, nullptr);
+  VkResult res = vkEnumeratePhysicalDeviceGroups(instance, &deviceCount, nullptr);
   if (res != VK_SUCCESS) {
     err("Failed to enumerate physical devices");
     return false;
   }
   SDL_Log("Number of physical devices: %u", deviceCount);
-
-  return true;
-}
-
-bool Engine::Ignite() {
+  
   bool quit = false;
   SDL_Event e;
   while (!quit) {
     while (SDL_PollEvent(&e)) {
-      if (e.type == SDL_EVENT_QUIT ||
-          (e.type == SDL_EVENT_KEY_DOWN && e.key.key == SDLK_ESCAPE)) {
+      if (e.type == SDL_EVENT_QUIT || (e.type == SDL_EVENT_KEY_DOWN && e.key.key == SDLK_ESCAPE)) {
         quit = true;
       }
     }
