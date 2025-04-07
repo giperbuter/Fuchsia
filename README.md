@@ -7,14 +7,12 @@ Add the path to android\app\jni\src\Android.mk.
 Add the path to macos\CMakeLists.txt.
 #### Windows
 1. In windows\CMakeLists.txt set the VULKAN_SDK_ROOT and SDL3_ROOT paths.
-2. Make sure the cmake vscode extension sourceDirectory is windows and buildDirectory is windows\bin.
-3. Run with the default vscode build task.
+2. cd windows\build; cmake ..; cmake --build . --config Debug; Fuchsia;
+3. Or run with the default vscode build task.
 #### MacOS
 1. Make sure to set the VK_ICD_FILENAMES environment variable to the MoltenVK_icd.json file path.
-2. cd ./macos/build
-3. cmake .. "-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64" -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
-4. cmake --build . --config Debug
-5. ./Fuchsia.app/Contents/MacOS/Fuchsia
+2. In macos/CMakeLists.txt set the VULKAN_SDK_ROOT and SDL3_ROOT paths.
+3. cd ./macos/build; cmake ..; cmake --build . --config Debug; ./Fuchsia.app/Contents/MacOS/Fuchsia;
 #### Android
 1. Put SDL3 include and src folders and the Android.mk file inside android\app\jni\SDL.
 2. In android\app\jni\src\Android.mk set the LOCAL_C_INCLUDES and LOCAL_SRC_FILES paths. No support to .lib files.
@@ -23,6 +21,7 @@ Add the path to macos\CMakeLists.txt.
 5. Make sure the sdk, ndk, java, and gradle(inside project) versions are compatible with one another. The sdk will intall the ndk for you.
 6. Connect a phone with Developer Mode on, enabled USB Debugging, accept the USB connection, and authorize to download apps when asked.
 7. Run with: cd android; ./gradlew installDebug; open the app on phone; adb logcat --pid=$(adb shell pidof -s org.libsdl.app);
+8. Or run the vscode build command and after opening the app on the phone run the Android Console task.
 #### iOS  *not complete*
 1. Build the SDL folder using cmake according to SDL3/README/macos online.
 2. cd ios/build
